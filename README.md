@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/KuserOguzHan/githup_jenkins_1.git'
+                git branch: 'main', url: 'https://github.com/HanEducation00/aws_jenkins_1'
             }
         }
 
@@ -47,41 +47,33 @@ sleep 3
 pipeline {
     agent any
 
-    triggers {
-        githubPush()  // GitHub'dan gelen push'ları dinler
-    }
-
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/KuserOguzHan/githup_jenkins_1.git'
+                git branch: 'main', url: 'https://github.com/HanEducation00/aws_jenkins_1'
             }
         }
 
-        stage('Virtualenv and Requirements') {
+        stage('Install Dependencies') {
             steps {
                 script {
-                    echo 'Setting up Python virtual environment and installing requirements...'
-                    sh '''#!/bin/bash
+                    sh '''
                     python3 -m venv venv
                     . venv/bin/activate
                     pip install -r requirements.txt
                     '''
                 }
-                echo 'Python environment is set up and requirements are installed'
             }
         }
 
         stage('Run FastAPI Application') {
             steps {
                 script {
-                    echo 'Starting FastAPI application with Uvicorn...'
-                    sh '''#!/bin/bash
+                    sh '''
                     . venv/bin/activate
                     uvicorn main:app --host 0.0.0.0 --port 8002
                     '''
                 }
-                echo 'Uvicorn is running'
             }
         }
     }
@@ -92,6 +84,7 @@ pipeline {
         }
     }
 }
+
 ```
 
 
