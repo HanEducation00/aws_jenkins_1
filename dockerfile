@@ -1,15 +1,20 @@
-# Dockerfile
-FROM python:3.8
+# Base image
+FROM python:3.8-slim
 
-# Çalışma dizinini oluştur
+# Set working directory
 WORKDIR /app
 
-# Gereksinimlerinizi yükleyin
-COPY requirements.txt ./
+# Copy requirements file
+COPY requirements.txt .
+
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Uygulama dosyalarını kopyalayın
-COPY app /app
+# Copy application files
+COPY . .
 
-# Uvicorn ile çalıştırın
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8002"]
+# Expose the desired port
+EXPOSE 8000
+
+# Command to run the FastAPI application
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
